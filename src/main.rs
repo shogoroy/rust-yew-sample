@@ -1,6 +1,7 @@
 mod components;
 mod domain;
 
+use components::entity_components::video_details::VideoDetails;
 use components::entity_components::videos_list::VideosList;
 use domain::entities::video::model::Video;
 
@@ -35,18 +36,28 @@ fn app() -> Html {
         },
     ];
 
+    let selected_video = use_state(|| None);
+
+    let on_video_select = {
+        let selected_video = selected_video.clone();
+        Callback::from(move |video: Video| selected_video.set(Some(video)))
+    };
+
+    let details = selected_video.as_ref().map(|video| {
+        html! {
+            <VideoDetails video={video.clone()} />
+        }
+    });
+
     html! {
-    <>
+      <>
         <h1>{ "RustConf Explorer" }</h1>
         <div>
             <h3>{"Videos to watch"}</h3>
-            <VideosList videos={videos}/>
+            <VideosList videos={videos} on_click={on_video_select} />
         </div>
-        <div>
-            <h3>{ "John Doe: Building and breaking things" }</h3>
-            <img src="https://via.placeholder.com/640x360.png?text=Video+Player+Placeholder" alt="video thumbnail" />
-        </div>
-    </>
+        {for details}
+      </>
     }
 }
 
