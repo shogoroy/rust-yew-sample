@@ -1,5 +1,7 @@
+mod components;
 mod domain;
 
+use components::entity_components::videos_list::VideosList;
 use domain::entities::video::model::Video;
 
 use yew::prelude::*;
@@ -33,21 +35,12 @@ fn app() -> Html {
         },
     ];
 
-    let videos = videos
-        .iter()
-        .map(|video| {
-            html! {
-                <p key={video.id}>{format!("{}: {}", video.speaker, video.title)}</p>
-            }
-        })
-        .collect::<Html>();
-
     html! {
     <>
         <h1>{ "RustConf Explorer" }</h1>
         <div>
             <h3>{"Videos to watch"}</h3>
-            {videos}
+            <VideosList videos={videos}/>
         </div>
         <div>
             <h3>{ "John Doe: Building and breaking things" }</h3>
