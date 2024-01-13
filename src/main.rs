@@ -1,6 +1,6 @@
 mod domain;
 
-use domain::video::model::Video;
+use domain::entities::video::model::Video;
 
 use yew::prelude::*;
 
